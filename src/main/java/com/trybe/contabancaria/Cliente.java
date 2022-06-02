@@ -30,6 +30,8 @@ public class Cliente {
   public void setCpf(String cpf) {
     if (ValidaCpf.validarCPF(cpf)) {
       this.cpf = cpf;
+    } else {
+      this.cpf = null;
     }
   }
 
