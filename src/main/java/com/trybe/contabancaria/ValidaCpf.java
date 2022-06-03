@@ -9,37 +9,45 @@ public class ValidaCpf {
   /**
    * Atributos.
    **/
-  private static int soma = 0;
+  private static int soma;
   private static int primeiroDV;
   private static int segundoDV;
+  private static short index;
 
   /**
    * Métodos.
    **/
-  public static boolean validarCPF(String CPF) {
-    char[] cpf = CPF.toCharArray();
-    for (int i = 2; i < 11; i++) {
-      soma += cpf[-i + 1] * i;
-    }
-    if (11 - (soma % 11) < 10) {
-      primeiroDV = 0;
-    } else {
-      primeiroDV = 11 - (soma % 11);
-    }
+  public static boolean validarCpf(String cpf) {
+    String[] arrayCpf = cpf.split("");
     soma = 0;
-    for (int i = 2; i <= 11; i++) {
-      soma += cpf[-i] * i;
+    index = 0;
+
+    for (int i = 10; index < 9; i--) {
+      soma += Integer.parseInt(arrayCpf[index]) * i;
+      index++;
     }
-    if (11 - (soma % 11) < 10) {
+    primeiroDV = 11 - (soma % 11);
+
+    soma = 0;
+    index = 0;
+
+    for (int i = 11; index < 9; i++) {
+      soma += Integer.parseInt(arrayCpf[index]) * i;
+      index++;
+    }
+    segundoDV = 11 - (soma % 11);
+
+    if (primeiroDV == 10 || primeiroDV == 11) {
+      primeiroDV = 0;
+    }
+    if (segundoDV == 10 || segundoDV == 11) {
       segundoDV = 0;
-    } else {
-      segundoDV = 11 - (soma % 11);
     }
 
-    if (primeiroDV == cpf[-2] && segundoDV == cpf[-1]) {
-      return true;
-    } else {
+    if (primeiroDV != Integer.parseInt(arrayCpf[9])
+        || segundoDV != Integer.parseInt(arrayCpf[10])) {
       return false;
     }
+    return true;
   }
 }
